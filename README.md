@@ -11,6 +11,7 @@ You can install this app as a PWA on your mobile device, moreover, it is availab
 Chrome: https://chrome.google.com/webstore/detail/radio-player/dneolpennjpnifjhmoiknmaapcodjjei  
 Opera: https://addons.opera.com/en/extensions/details/radio-player-3/  
 Firefox: https://addons.mozilla.org/en-US/firefox/addon/radio-player-browser/  
+Edge: https://microsoftedge.microsoft.com/addons/detail/oddmniiihidppglkcccagnmbddgbidif  
 
 Webapp & PWA: https://webbrowsertools.com/radio-player/  
 
