@@ -1,0 +1,6 @@
+This add-on uses the following JSON for radio stations:
+
+http://www.radio-browser.info/webservice/json/stations
+
+Note: the above JSON file is split into several smaller files based on the country names. 
+All files are located in the stations folder as [country-name].json
