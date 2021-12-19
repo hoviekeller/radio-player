@@ -9,9 +9,9 @@ Note 2: All the radio database is located locally on your machine. However, when
 You can install this app as a PWA on your mobile device, moreover, it is available as a browser extension as-well-as a web application:
 
 Chrome: https://chrome.google.com/webstore/detail/radio-player/dneolpennjpnifjhmoiknmaapcodjjei  
+Edge: https://microsoftedge.microsoft.com/addons/detail/oddmniiihidppglkcccagnmbddgbidif  
 Opera: https://addons.opera.com/en/extensions/details/radio-player-3/  
 Firefox: https://addons.mozilla.org/en-US/firefox/addon/radio-player-browser/  
-Edge: https://microsoftedge.microsoft.com/addons/detail/oddmniiihidppglkcccagnmbddgbidif  
 
 Webapp & PWA: https://webbrowsertools.com/radio-player/  
 
