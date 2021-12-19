@@ -1,0 +1,314 @@
+html, body {
+  margin: 0;
+  border: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  color: #333;
+	width: 100%;
+  font-size: 12px;
+  overflow: hidden;
+  font-family: monospace;
+}
+
+table {
+  width: 100%;
+  border-spacing: 1px 5px;
+}
+
+table tr td {
+	padding: 0;
+  font-size: 12px;
+  font-family: monospace;
+}
+
+audio {
+  width: 100%;
+  margin: auto;
+  height: 54px;
+  font-size: 12px;
+  font-family: monospace;
+  vertical-align: middle;
+}
+
+select {
+  color: #333;
+  height: 42px;
+  outline: none;
+  font-size: 12px;
+	cursor: pointer;
+  background: #fff;
+  text-indent: 10px;
+  font-family: monospace;
+	text-transform: capitalize;
+  border: solid 1px rgba(0,0,0,0.1);
+}
+
+svg {
+  pointer-events: none;
+  vertical-align: middle;
+}
+
+.container {
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.header {
+	margin: auto;
+  height: 48px;
+  border-spacing: 5px;
+  background-color: #f1a727;
+  border-bottom: solid 1px rgba(0,0,0,0.1);
+}
+
+.button {
+  border: 0;
+  width: 58px;
+  height: 100%;
+  outline: none;
+  min-width: 58px;
+  max-width: 58px;
+  cursor: pointer;
+  text-align: center;
+  background-color: #f1a727;
+}
+
+.button[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.info {
+  border-spacing: 10px 5px;
+}
+
+.info, .image {
+  height: 300px;
+  width: calc(50% - 10px);
+}
+
+.info {
+  padding: 0;
+  float: left;
+  margin: auto;
+	text-align: left;
+}
+
+.info tr td {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.info tr td[type="name"] {
+	width: 120px;
+	max-width: 120px;
+  min-width: 120px;
+  font-weight: 600;
+	text-transform: capitalize;
+}
+
+.info tr td[type="value"] {
+	width: 100%;
+  max-width: 300px;
+}
+
+.audio {
+  padding: 10px 0;
+  background: #fff;
+  margin: 10px auto;
+  border-spacing: 10px 0;
+  box-sizing: border-box;
+  border-top: solid 1px rgba(0,0,0,0.1);
+}
+
+.audio tr td {
+  text-align: center;
+}
+
+.image {
+  float: right;
+  max-width: 256px;
+  border-spacing: 0;
+  margin: 10px auto;
+  border-left: solid 1px rgba(0,0,0,0.1);
+}
+
+.image tr td {
+	text-align: center;
+}
+
+.image tr td div {
+  border: 0;
+  width: auto;
+	margin: auto;
+  height: 100%;
+	display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 300ms ease all;
+}
+
+.image img {
+  width: 100%;
+  height: auto;
+  display: none;
+  max-width: 128px;
+}
+
+.image svg, .icon svg {
+  fill: #f1a727;
+}
+
+.title {
+  width: 100%;
+  font-size: 12px;
+  max-width: 100px;
+  font-weight: 600;
+  overflow: hidden;
+  text-indent: 5px;
+  user-select: none;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.count {
+  padding: 0;
+  width: 100px;
+  min-width: 100px;
+  max-width: 100px;
+  text-align: left;
+  text-indent: 5px;
+}
+
+.count span {
+  color: #333;
+  font-weight: 600;
+  padding: 5px 1px;
+  user-select: none;
+  vertical-align: middle;
+}
+
+.footer {
+  left: 0;
+  bottom: 0;
+  height: 53px;
+  margin: 0 auto;
+  position: fixed;
+  padding: 0 5px 0 0;
+  background-color: #fff;
+  border-spacing: 1px 5px;
+  border-top: solid 1px rgba(0,0,0,0.1);
+}
+
+.footer tr td {
+  height: 100%;
+}
+
+.footer .button svg {
+  fill: #555555;
+}
+
+.icon {
+	width: 52px;
+	min-width: 52px;
+	max-width: 52px;
+  text-align: center;
+  vertical-align: middle;
+  border-right: solid 1px rgba(0,0,0,0.1);
+}
+
+.dummy {
+  overflow: hidden;
+  text-indent: 10px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  transition: 300ms ease all;
+}
+
+#stations {width: 250px}
+#countries {width: 250px}
+
+@media (max-width: 750px) {
+  .title {
+    display: none;
+  }
+  .header {
+    border-bottom: 0;
+    border-spacing: 1px;
+  }
+  .header select {
+    height: 48px;
+    min-width: 90px;
+    width: 100% !important;
+  }
+  .info, .image {
+    border: 0;
+    padding: 0;
+    width: 100%;
+    float: none;
+  }
+  .image {
+    height: 170px;
+    max-width: unset;
+    border-top: solid 1px rgba(0,0,0,0.1);
+  }
+  .image img {
+    max-width: 90px;
+  }
+  .count {
+    width: 90px;
+    padding: 0 3px;
+    min-width: 90px;
+    max-width: 90px;
+    text-align: left;
+  }
+}
+
+@media (max-width: 650px) {
+  .dummy {
+    max-width: 90px;
+  }
+}
+
+@media (max-width: 550px) {
+  .audio {
+    margin: 5px auto;
+  }
+  .image {
+    margin: 0 auto;
+  }
+  .image {
+    height: 128px;
+  }
+  .image img {
+    max-width: 64px;
+  }
+}
+
+@media (max-width: 450px) {
+  .header {
+    table-layout: fixed;
+  }
+  .icon, .count, .dummy {
+    display: none;
+  }
+  .footer {
+    padding: 0;
+    height: 48px;
+    border-top: 0;
+    table-layout: fixed;
+    border-spacing: 1px;
+  }
+  .button {
+    width: 100%;
+    min-width: unset;
+    max-width: unset;
+  }
+}
