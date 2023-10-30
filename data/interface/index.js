@@ -1,8 +1,8 @@
 var background = (function () {
-  var tmp = {};
+  let tmp = {};
   if (chrome && chrome.runtime && chrome.runtime.onMessage) {
     chrome.runtime.onMessage.addListener(function (request) {
-      for (var id in tmp) {
+      for (let id in tmp) {
         if (tmp[id] && (typeof tmp[id] === "function")) {
           if (request.path === "background-to-popup") {
             if (request.method === id) tmp[id](request.data);
@@ -12,10 +12,20 @@ var background = (function () {
     });
     /*  */
     return {
-      "receive": function (id, callback) {tmp[id] = callback},
+      "receive": function (id, callback) {
+        tmp[id] = callback;
+      },
       "send": function (id, data) {
-        chrome.runtime.sendMessage({"path": "popup-to-background", "method": id, "data": data});
-      }
+        if (id) {
+          chrome.runtime.sendMessage({
+            "method": id,
+            "data": data,
+            "path": "popup-to-background"
+          }, function () {
+            return chrome.runtime.lastError;
+          });
+        }
+      },
     }
   } else {
     return {
@@ -26,6 +36,11 @@ var background = (function () {
 })();
 
 var config = {
+  "addon": {
+    "homepage": function () {
+      return chrome.runtime.getManifest().homepage_url;
+    }
+  },
   "app": {
     "start": function () {
       config.radio.load.database(function () {
@@ -49,7 +64,7 @@ var config = {
       if (config.port.name === "win") {
         if (config.resize.timeout) window.clearTimeout(config.resize.timeout);
         config.resize.timeout = window.setTimeout(async function () {
-          var current = await chrome.windows.getCurrent();
+          const current = await chrome.windows.getCurrent();
           /*  */
           config.storage.write("interface.size", {
             "top": current.top,
@@ -65,7 +80,7 @@ var config = {
     "name": '',
     "connect": function () {
       config.port.name = "webapp";
-      var context = document.documentElement.getAttribute("context");
+      const context = document.documentElement.getAttribute("context");
       /*  */
       if (chrome.runtime) {
         if (chrome.runtime.connect) {
@@ -97,7 +112,7 @@ var config = {
     "write": function (id, data) {
       if (id) {
         if (data !== '' && data !== null && data !== undefined) {
-          var tmp = {};
+          let tmp = {};
           tmp[id] = data;
           config.storage.local[id] = data;
           chrome.storage.local.set(tmp, function () {});
@@ -109,14 +124,18 @@ var config = {
     }
   },
   "load": function () {
-    var player = document.getElementById("player");
-    var stations = document.getElementById("stations");
-    var countries = document.getElementById("countries");
+    const player = document.getElementById("player");
+    const stations = document.getElementById("stations");
+    const countries = document.getElementById("countries");
     /*  */
-    var reset = document.querySelector(".reset");
-    var reload = document.querySelector(".reload");
-    var support = document.querySelector(".support");
-    var donation = document.querySelector(".donation");
+    const reset = document.querySelector(".reset");
+    const reload = document.querySelector(".reload");
+    const support = document.querySelector(".support");
+    const donation = document.querySelector(".donation");
+    /*  */
+    reload.addEventListener("click", function () {
+      document.location.reload();
+    });
     /*  */
     stations.addEventListener("change", function (e) {
       config.app.prefs.station = e.target.selectedIndex;
@@ -137,20 +156,20 @@ var config = {
     /*  */
     support.addEventListener("click", function () {
       if (config.port.name !== "webapp") {
-        var url = config.addon.homepage();
+        const url = config.addon.homepage();
         chrome.tabs.create({"url": url, "active": true});
       }
     }, false);
     /*  */
     donation.addEventListener("click", function () {
       if (config.port.name !== "webapp") {
-        var url = config.addon.homepage() + "?reason=support";
+        const url = config.addon.homepage() + "?reason=support";
         chrome.tabs.create({"url": url, "active": true});
       }
     }, false);
     /*  */
     reset.addEventListener("click", function () {
-      var flag = window.confirm("Are you sure you want to reset the app to factory settings?");
+      const flag = window.confirm("Are you sure you want to reset the app to factory settings?");
       if (flag) {
         config.app.prefs.station = 0;
         config.app.prefs.country = '';
@@ -165,7 +184,6 @@ var config = {
     /*  */
     config.storage.load(config.app.start);
     window.removeEventListener("load", config.load, false);
-    reload.addEventListener("click", function () {document.location.reload()});
   },
   "radio": {
     "countries": [],
@@ -175,17 +193,17 @@ var config = {
         config.radio.load.countries(callback);
       },
       "channel": function (country, callback) {
-        var request = new XMLHttpRequest();
+        const request = new XMLHttpRequest();
         request.open("GET", "stations/" + country + ".json");
         request.onload = function () {
-          var channel = JSON.parse(request.responseText);
+          const channel = JSON.parse(request.responseText);
           if (channel) callback(channel);
         };
         /*  */
         request.send();
       },
       "countries": function (callback) {
-        var request = new XMLHttpRequest();
+        const request = new XMLHttpRequest();
         request.open("GET", "stations/countries.json");
         request.onload = function () {
           config.radio.countries = JSON.parse(request.responseText);
@@ -195,10 +213,10 @@ var config = {
         request.send();
       },
       "player": function () {
-        var target = document.querySelector(".channel-url");
+        const target = document.querySelector(".channel-url");
         if (target) {
           if (target.textContent) {
-            var player = document.getElementById("player");
+            const player = document.getElementById("player");
             if (player) {
               player.disabled = true;
               target.style.color = "#999999";
@@ -219,7 +237,7 @@ var config = {
                 player.disabled = true;
                 player.volume = 0;
                 /*  */
-                var dummy = document.querySelector(".dummy");
+                const dummy = document.querySelector(".dummy");
                 dummy.textContent = "An error has occurred! please try a different channel.";
               };
             }
@@ -243,31 +261,34 @@ var config = {
         }
       },
       "countries": function () {
-        var countries = document.getElementById("countries");
+        const countries = document.getElementById("countries");
         countries.textContent = '';
         /*  */
         config.radio.countries.sort();
         config.radio.render.dummy.option(countries, "Choose a desired country");
-        for (var i = 0; i < config.radio.countries.length; i++) {
-          var option = document.createElement("option");
+        for (let i = 0; i < config.radio.countries.length; i++) {
+          const option = document.createElement("option");
           option.textContent = config.radio.countries[i];
           option.value = config.radio.countries[i];
           countries.appendChild(option);
         }
         /*  */
-        if (config.app.prefs.country) countries.value = config.app.prefs.country;
-        else countries.selectedIndex = 0;
+        if (config.app.prefs.country) {
+          countries.value = config.app.prefs.country;
+        } else {
+          countries.selectedIndex = 0;
+        }
       },
       "flash": function (flag) {
-        var dummy = document.querySelector(".dummy");
-        var border = document.querySelector(".image");
+        const dummy = document.querySelector(".dummy");
+        const border = document.querySelector(".image");
         if (config.radio.render.timeout) window.clearTimeout(config.radio.render.timeout);
         /*  */
         if (flag) {
           config.radio.render.timeout = window.setTimeout(function () {
-            var color = border ? (border.style.borderColor.indexOf("0.1") !== -1 ? "0.2" : "0.1") : '0';
-            var count = function () {return (dummy.textContent.match(/\./g) || []).length};
-            var dots = count() === 0 ? "." : (count() === 1 ? ".." : (count() === 2 ? "..." : ''));
+            const color = border ? (border.style.borderColor.indexOf("0.1") !== -1 ? "0.2" : "0.1") : '0';
+            const count = function () {return (dummy.textContent.match(/\./g) || []).length};
+            const dots = count() === 0 ? "." : (count() === 1 ? ".." : (count() === 2 ? "..." : ''));
             if (border) border.style.borderColor = "rgba(0,0,0," + color + ")";
             dummy.textContent = "Loading, please wait" + dots;
             config.radio.render.flash(flag);
@@ -278,17 +299,17 @@ var config = {
         }
       },
       "stations": function (build) {
-        var country = config.app.prefs.country;
+        const country = config.app.prefs.country;
         if (country) {
           config.radio.load.channel(country, function (channel) {
-            var stations = document.getElementById("stations");
-            var count = document.querySelector(".count .channel");
+            const stations = document.getElementById("stations");
+            const count = document.querySelector(".count .channel");
             /*  */
             if (build) {
               stations.textContent = '';
               config.radio.render.dummy.option(stations, "Choose a desired station");
-              for (var id in channel) {
-                var option = document.createElement("option");
+              for (let id in channel) {
+                const option = document.createElement("option");
                 option.setAttribute("value", id);
                 option.setAttribute("ip", channel[id].ip);
                 option.setAttribute("url", channel[id].url);
@@ -317,23 +338,25 @@ var config = {
         }
       },
       "info": function () {
-        var info = document.querySelector(".info");
-        var image = document.querySelector(".image");
-        var stations = document.getElementById("stations");
-        var img = image.querySelector("div").querySelector("img");
-        var svg = image.querySelector("div").querySelector("svg");
+        const info = document.querySelector(".info");
+        const image = document.querySelector(".image");
+        const stations = document.getElementById("stations");
+        const img = image.querySelector("div").querySelector("img");
+        const svg = image.querySelector("div").querySelector("svg");
         /*  */
+        let sorted = [];
+        let unsorted = [];
         info.textContent = '';
-        var sorted = [], unsorted = [];
-        var station = stations[stations.selectedIndex];
+        /*  */
+        const station = stations[stations.selectedIndex];
         if (station === undefined || station.disabled) return;
         /*  */
-        var attributes = station.attributes;
-        for (var index in attributes) {
+        const attributes = station.attributes;
+        for (let index in attributes) {
           if (attributes[index]) {
-            var name = attributes[index].name;
+            const name = attributes[index].name;
             if (name && name !== "value") {
-              var value = station.getAttribute(name);
+              const value = station.getAttribute(name);
               if (value) {
                 unsorted.push(name);
               }
@@ -342,16 +365,16 @@ var config = {
         }
         /*  */
         sorted = unsorted.sort();
-        for (var i = 0; i < sorted.length; i++) {
-          var name = sorted[i];
-          var value = station.getAttribute(name);
+        for (let i = 0; i < sorted.length; i++) {
+          const name = sorted[i];
+          const value = station.getAttribute(name);
           if (name && value && name !== "value") {
-            var tr = document.createElement("tr");
+            const tr = document.createElement("tr");
             /*  */
             var td = document.createElement("td");
             td.setAttribute("type", "name");
             td.textContent = name;
-            var uppercase = name === "ip" || name === "url";
+            const uppercase = name === "ip" || name === "url";
             if (uppercase) td.style.textTransform = "uppercase";
             tr.appendChild(td);
             /*  */

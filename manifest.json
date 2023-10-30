@@ -1,8 +1,7 @@
 {
-  "version": "0.1.3",
+  "version": "0.1.4",
   "manifest_version": 3,
   "name": "Radio Player",
-  "short_name": "radio-player",
   "permissions": ["storage", "contextMenus"],
   "homepage_url": "https://mybrowseraddon.com/radio-player.html",
   "description": "Listen to more than 20K free radio stations around the world!",
