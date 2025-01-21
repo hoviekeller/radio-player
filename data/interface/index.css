@@ -35,6 +35,7 @@ audio {
 }
 
 select {
+  padding: 0;
   color: #333;
   height: 42px;
   outline: none;
@@ -42,7 +43,7 @@ select {
 	cursor: pointer;
   background: #fff;
   font-weight: 600;
-  text-indent: 10px;
+  text-indent: 5px;
   font-family: monospace;
 	text-transform: capitalize;
   border: solid 1px rgba(0, 0, 0, 0.1);
@@ -291,6 +292,12 @@ svg {
 
 #stations {width: 250px}
 #countries {width: 250px}
+
+@supports (-moz-appearance: none) {
+  audio {
+    height: 42px;
+  }
+}
 
 html[context="webapp"] .container .content:has(.footer) {
   border-bottom: solid 1px rgba(0, 0, 0, 0.1);
