@@ -41,23 +41,6 @@ var config = {
       return chrome.runtime.getManifest().homepage_url;
     }
   },
-  "app": {
-    "start": function () {
-      config.radio.load.database(function () {
-        config.radio.render.flash(false);
-        config.radio.render.countries();
-        config.radio.render.stations(true);
-      });
-    },
-    "prefs": {
-      set volume (val) {config.storage.write("volume", val)},
-      set country (val) {config.storage.write("country", val)},
-      set station (val) {config.storage.write("station", val)},
-      get volume () {return config.storage.read("volume") !== undefined ? config.storage.read("volume") : 0.1},
-      get station () {return config.storage.read("station") !== undefined ? config.storage.read("station") : 0},
-      get country () {return config.storage.read("country") !== undefined ? config.storage.read("country") : ''}
-    }
-  },
   "resize": {
     "timeout": null,
     "method": function () {
@@ -74,6 +57,27 @@ var config = {
           });
         }, 1000);
       }
+    }
+  },
+  "app": {
+    "start": function () {
+      config.radio.load.database(function () {
+        config.radio.render.flash(false);
+        config.radio.render.countries();
+        config.radio.render.stations(true);
+        /*  */
+        document.documentElement.setAttribute("theme", config.app.prefs.theme);
+      });
+    },
+    "prefs": {
+      set theme (val) {config.storage.write("theme", val)},
+      set volume (val) {config.storage.write("volume", val)},
+      set country (val) {config.storage.write("country-new", val)},
+      set station (val) {config.storage.write("station-new", val)},
+      get volume () {return config.storage.read("volume") !== undefined ? config.storage.read("volume") : 0.1},
+      get theme () {return config.storage.read("theme") !== undefined ? config.storage.read("theme") : "light"},
+      get station () {return config.storage.read("station-new") !== undefined ? config.storage.read("station-new") : 0},
+      get country () {return config.storage.read("country-new") !== undefined ? config.storage.read("country-new") : ''}
     }
   },
   "port": {
@@ -129,6 +133,7 @@ var config = {
     const countries = document.getElementById("countries");
     /*  */
     const reset = document.querySelector(".reset");
+    const theme = document.querySelector(".theme");
     const reload = document.querySelector(".reload");
     const support = document.querySelector(".support");
     const donation = document.querySelector(".donation");
@@ -166,6 +171,14 @@ var config = {
         const url = config.addon.homepage() + "?reason=support";
         chrome.tabs.create({"url": url, "active": true});
       }
+    }, false);
+    /*  */
+    theme.addEventListener("click", function () {
+      let attribute = document.documentElement.getAttribute("theme");
+      attribute = attribute === "dark" ? "light" : "dark";
+      /*  */
+      document.documentElement.setAttribute("theme", attribute);
+      config.app.prefs.theme = attribute;
     }, false);
     /*  */
     reset.addEventListener("click", function () {
@@ -221,9 +234,15 @@ var config = {
               player.disabled = true;
               target.style.color = "#999999";
               config.radio.render.flash(true);
-              window.setTimeout(function () {player.src = target.textContent}, 1000);
               /*  */
-              player.onplaying = function () {config.radio.render.flash(false)};
+              window.setTimeout(function () {
+                player.src = target.textContent;
+              }, 1000);
+              /*  */
+              player.onplaying = function () {
+                config.radio.render.flash(false);
+              };
+              /*  */
               player.onloadedmetadata = function () {
                 player.volume = config.app.prefs.volume;
                 config.radio.render.flash(false);

@@ -32,6 +32,7 @@ audio {
   font-size: 14px;
   font-family: monospace;
   vertical-align: middle;
+  font-variant: tabular-nums;
 }
 
 select {
@@ -203,7 +204,10 @@ svg {
   width: 100%;
   height: auto;
   display: none;
+  padding: 10px;
   max-width: 190px;
+  background-color: #fff;
+  box-sizing: border-box;
 }
 
 .container .content .block .image svg,
@@ -247,6 +251,7 @@ svg {
 .container .content .footer .dummy {
   overflow: hidden;
   font-weight: 600;
+  user-select: none;
   text-indent: 10px;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -308,4 +313,37 @@ html[context="webapp"] .container .content:has(.footer) {
 
 html[context="webapp"] .toolbar {
   display: none;
+}
+
+html[theme='dark'], 
+html[theme='dark'] body {
+  color: #ebebeb;
+  color-scheme: dark;
+  background-color: #1e1e1e;
+}
+
+html[theme='dark'] select {
+  color: #ebebeb;
+  background-color: #1e1e1e;
+}
+
+html[theme='dark'] .container .content .header .title {
+  color: #333;
+}
+
+html[theme='dark'] .container .content .audio,
+html[theme='dark'] .container .content:has(.footer) {
+  background-color: #1e1e1e;
+}
+
+html[theme='dark'] .container .content .header,
+html[theme='dark'] .container .content:has(.audio),
+html[theme='dark'] .container .content:has(.footer),
+html[theme='dark'] .container .content .footer .icon,
+html[theme='dark'] .container .content .block:has(.info) {
+  border-color: rgb(255 255 255 / 15%);
+}
+
+html[theme='dark'] .container .content .block .image img {
+  filter: brightness(0.85);
 }

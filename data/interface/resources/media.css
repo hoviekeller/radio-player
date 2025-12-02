@@ -13,11 +13,19 @@
   .container .content .header {
     border-bottom: 0;
     border-spacing: 1px;
+    background-color: #fff;
+  }
+  html[theme='dark'] .container .content .header {
+    background-color: #1e1e1e;
   }
   .container .content .header select {
     height: 48px;
     min-width: 90px;
+    background: #f1a727;
     width: 100% !important;
+  }
+  html[theme='dark'] .container .content .header select {
+    color: #333;
   }
   .container .content .header .title {
     display: none;
